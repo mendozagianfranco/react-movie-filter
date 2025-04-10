@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import movies from './data/movies';
 
+
 function App() {
+  const [films, setFilms] = useState(movies);
+  const [filteredFilms, SetFilteredFilms] = useState(films);
   const [searchCategory, setSearchCategory] = useState('');
 
+  useEffect(() => {
 
+    let updateListFilms = films;
+    if (searchCategory !== '') {
+      updateListFilms = updateListFilms.filter(film => film.genre == searchCategory);
+    }
+    SetFilteredFilms(updateListFilms);
+  }, [searchCategory]);
 
   return (
     <>
@@ -20,9 +30,9 @@ function App() {
           <option>Azione</option>
         </select>
       </section>
-      {movies.map((movie, index) => <article key={index}>
-        <h3>{movie.title}</h3>
-        <p>Genere: <strong>{movie.genre}</strong></p>
+      {filteredFilms.map((film, index) => <article key={index}>
+        <h3>{film.title}</h3>
+        <p>Genere: <strong>{film.genre}</strong></p>
       </article>)}
     </>
   );
