@@ -6,6 +6,7 @@ function App() {
   const [films, setFilms] = useState(movies);
   const [filteredFilms, SetFilteredFilms] = useState(films);
   const [searchCategory, setSearchCategory] = useState('');
+  const [searchTitle, setSearchTitle] = useState('');
 
   useEffect(() => {
 
@@ -13,14 +14,21 @@ function App() {
     if (searchCategory !== '') {
       updateListFilms = updateListFilms.filter(film => film.genre == searchCategory);
     }
+
+    if (searchTitle !== '') {
+      updateListFilms = updateListFilms.filter(film => film.title.includes(searchTitle));
+    }
+
     SetFilteredFilms(updateListFilms);
-  }, [searchCategory]);
+  }, [searchCategory, searchTitle]);
 
   return (
     <>
       <h1>Movie Filter</h1>
       <section>
         <h2>Cerca Film</h2>
+        <label>Cerca per titolo</label>
+        <input type="text" value={searchTitle} onChange={(e) => setSearchTitle(e.target.value)} />
         <label>Cerca per categoria</label>
         <select value={searchCategory} onChange={e => setSearchCategory(e.target.value)}>
           <option value="">---</option>
