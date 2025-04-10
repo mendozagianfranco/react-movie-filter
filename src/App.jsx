@@ -7,6 +7,7 @@ function App() {
   const [filteredFilms, SetFilteredFilms] = useState(films);
   const [searchCategory, setSearchCategory] = useState('');
   const [searchTitle, setSearchTitle] = useState('');
+  const [newFilm, setNewFilm] = useState('');
 
   useEffect(() => {
 
@@ -20,7 +21,17 @@ function App() {
     }
 
     SetFilteredFilms(updateListFilms);
-  }, [searchCategory, searchTitle]);
+  }, [searchCategory, searchTitle, films]);
+
+  const addNewFilm = (e) => {
+    e.preventDefault();
+    const newFilmObj = {
+      title: newFilm,
+      genre: 'Azione'
+    };
+    setFilms([...films, newFilmObj]);
+    setNewFilm('');
+  };
 
   return (
     <>
@@ -42,6 +53,11 @@ function App() {
         <h3>{film.title}</h3>
         <p>Genere: <strong>{film.genre}</strong></p>
       </article>)}
+      <h2>Aggiungere Film</h2>
+      <form onSubmit={addNewFilm} >
+        <input type="text" value={newFilm} onChange={e => setNewFilm(e.target.value)} />
+        <button>Aggiungi Film</button>
+      </form>
     </>
   );
 }
